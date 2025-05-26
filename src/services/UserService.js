@@ -41,11 +41,13 @@ export const deleteUser = async (id, data , access_token) => {
     return res.data
 }
 
-export const refreshToken = async () => {
+export const refreshToken = async (refreshToken) => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/refresh-token`,
         {},
         {
-            withCredentials: true //Khi có cookie mới sẽ tự dộng chuyền xuống BE
+            headers: {
+                token: `Bearer ${refreshToken}`
+            }
         }
     );
     return res.data;

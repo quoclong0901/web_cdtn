@@ -46,6 +46,7 @@ const SignInPage = () => {
       }
 
       localStorage.setItem('access_token', JSON.stringify(data?.access_token) )// lưu access_token vào localStorage
+      localStorage.setItem('access_token', JSON.stringify(data?.refresh_token) )
       if(data?.access_token) {
         const decoded = jwtDecode(data?.access_token)
         
@@ -58,8 +59,11 @@ const SignInPage = () => {
   }, [isSuccess])
   
   const handleGetDetailsUser = async (id, token) => {
+    const storage = localStorage.getItem('refresh_token')
+    const refreshToken = JSON.parse(storage)
+
     const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser( { ...res?.data, access_token: token } ) )
+    dispatch(updateUser( { ...res?.data, access_token: token, refreshToken } ) )
   }
 
   const handleOnChangeEmail = (value) => {

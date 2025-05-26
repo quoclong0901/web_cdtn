@@ -54,5 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://web-cdtn-backend.onrender.com"
+  "proxy": "http://localhost:3001"
 }

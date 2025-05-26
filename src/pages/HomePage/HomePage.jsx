@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import Pending from '../../components/PendingComponent/Pending';
 import { useDebounce } from '../../hooks/useDebounce';
 import FooterComponent from '../../components/FooterComponent/FooterComponent';
+import TawkToChat from '../../components/TawkToChat/TawkToChat';
 
 const HomePage = () => {
   const searchProduct = useSelector((state) => state?.product?.search)
