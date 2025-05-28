@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   search: '',
+  products: [],
 }
 
 export const productSlice = createSlice({
@@ -13,10 +14,13 @@ export const productSlice = createSlice({
     searchProduct: (state, action) => {
       state.search = action.payload
     },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { searchProduct } = productSlice.actions
+export const { searchProduct, setProducts } = productSlice.actions
 
 export default productSlice.reducer

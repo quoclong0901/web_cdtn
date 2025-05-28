@@ -34,15 +34,16 @@ const SignUpPage = () => {
   const {data, isPending, isSuccess, isError} = mutation
 
   useEffect(() => {
-    if(isSuccess) {
-      message.success()
-
+    if (isSuccess && data?.status === 'OK') {
+      message.success(data?.message || 'Đăng ký thành công!')
       handleNavigateSignIn();
-      
-    }else if (isError){
-      message.error()
+    } else if (isSuccess && data?.status === 'ERR') {
+      message.error(data?.message || 'Đăng ký thất bại!')
+    } else if (isError) {
+      message.error('Có lỗi xảy ra, vui lòng thử lại!')
     }
-  }, [isSuccess, isError])
+  }, [isSuccess, isError, data])
+  
     
 
   const handleOnChangeEmail = (value) => {

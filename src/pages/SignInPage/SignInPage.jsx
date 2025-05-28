@@ -36,27 +36,27 @@ const SignInPage = () => {
 
   const {data, isPending, isSuccess} = mutation
 
-  useEffect(()=> {
-    
-    if(isSuccess) {
-      if(location?.state) {
-        navigate(location?.state)
-      } else {
-        navigate('/')
-      }
-
-      localStorage.setItem('access_token', JSON.stringify(data?.access_token) )// lưu access_token vào localStorage
-      localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token) )
-      if(data?.access_token) {
-        const decoded = jwtDecode(data?.access_token)
-        
-        if(decoded?.id) {
-          handleGetDetailsUser(decoded?.id, data?.access_token)
+  useEffect(() => {
+    if (isSuccess && data?.status === 'OK') {
+      localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+      localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token));
+  
+      if (data?.access_token) {
+        const decoded = jwtDecode(data?.access_token);
+  
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, data?.access_token);
         }
       }
+  
+      if (location?.state) {
+        navigate(location?.state);
+      } else {
+        navigate('/');
+      }
     }
-
-  }, [isSuccess])
+  }, [isSuccess, data]);
+  
   
   const handleGetDetailsUser = async (id, token) => {
     const storage = localStorage.getItem('refresh_token')
@@ -136,7 +136,11 @@ const SignInPage = () => {
             />
           </Pending>
 
-          <p><WrapperTextLight>Quên Mật khẩu</WrapperTextLight></p>
+          <p>
+            <WrapperTextLight onClick={() => navigate('/forgot-password')}>
+              Quên mật khẩu
+            </WrapperTextLight>
+          </p>
           <p>
             Chưa có tài khoản ? 
             <WrapperTextLight onClick={handleNavigateSignUp}>

@@ -1,0 +1,30 @@
+.category-banner {
+    background: #1d34c4; /* màu xanh */
+    height: 36px;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.category-title {
+    background: #ff0000; /* màu đỏ */
+    color: white;
+    font-weight: bold;
+    padding: 6px 16px;
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    line-height: 30px;
+}
+
+.category-title::after {
+    content: "";
+    position: absolute;
+    right: -15px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid #1d34c4; /* màu nền xanh */
+}
+  
