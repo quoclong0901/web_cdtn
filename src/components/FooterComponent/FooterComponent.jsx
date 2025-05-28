@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaYoutube, FaInstagram, FaTiktok, FaFacebookMessenger } from 'react-icons/fa';
 
 const FooterContainer = styled.footer`
-  width: 1280px;
+  width: 1230px;
   margin: 0 auto;
   background-color: #002366;
   color: #fff;

@@ -13,6 +13,12 @@ import Pending from '../../components/PendingComponent/Pending';
 import { updateUser } from '../../redux/slides/userSlide';
 import { useNavigate } from 'react-router-dom';
 import StepComponent from '../../components/StepComponent/StepComponent';
+import SliderComponent from '../../components/SliderComponent/SliderComponent';
+import slider1 from '../../assets/images/slider1.webp';
+import slider2 from '../../assets/images/slider2.webp';
+import slider3 from '../../assets/images/slider3.webp';
+import FooterComponent from '../../components/FooterComponent/FooterComponent';
+import SliderComponentY from '../../components/SliderComponentY/SliderComponentY';
 
 
 const OrderPage = () => {
@@ -224,11 +230,12 @@ const OrderPage = () => {
   return (
 
   <div style={{ backgroundColor: '#f5f5f5', minHeight: '100vh', padding: '24px 0' }}>
-    <div style={{ margin: '0 auto', width: 1270, height: '100%' }}>
+    <div style={{ margin: '0 auto', width: '1270px', height: '100%' }}>
       <h2>Giỏ hàng</h2>
+      <SliderComponentY/>
       <Row style={{ display: 'flex', gap: 10, paddingLeft: '10px' }}>
         {/* LEFT */}
-        <Col span={17} style={{marginRight: 16}}>
+        <Col span={17} style={{marginRight: 16, marginLeft: '10px'}}>
           <div style={{ background: '#fff', padding: 12, borderRadius: 8, marginBottom: 12 }}>
             <StepComponent 
               items={itemsDelivery} 
@@ -355,6 +362,14 @@ const OrderPage = () => {
           </div>
         </Col>
       </Row>
+    <div style={{margin: 20}}>
+      <SliderComponent arrImages={[slider1, slider2, slider3 ]}/>  
+    </div>
+
+    <div style={{marginRight: '20px', marginLeft: '20px'}}>
+      <FooterComponent/>
+    </div>
+    
     </div>
 
     <ModalComponent
@@ -380,14 +395,6 @@ const OrderPage = () => {
           >
               <InputComponent value={stateUserDetails['name']} onChange={handleOnChangeDetails} name="name"/>
           </Form.Item>
-
-          {/* <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email !' }]}
-          >
-              <InputComponent value={stateUserDetails?.email} onChange={handleOnChangeDetails} name="email"/>
-          </Form.Item> */}
 
           <Form.Item
           label="Phone"

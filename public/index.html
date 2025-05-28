@@ -30,17 +30,11 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-      src="https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js"></script>
-
-    <div class="fb-customerchat"
-      attribution="biz_inbox"
-      page_id="626931320510264"
-      theme_color="#0084ff"
-      logged_in_greeting="Chào bạn!"
-      logged_out_greeting="Xin chào! Hãy đăng nhập để trò chuyện.">
-    </div>
+    <script src="https://app.tudongchat.com/js/chatbox.js"></script>
+    <script>
+      const tudong_chatbox = new TuDongChat('QjDWzJcMwxb0S-DCWXAYH')
+      tudong_chatbox.initial()
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

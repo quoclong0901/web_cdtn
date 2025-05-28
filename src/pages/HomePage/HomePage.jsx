@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import Pending from '../../components/PendingComponent/Pending';
 import { useDebounce } from '../../hooks/useDebounce';
 import FooterComponent from '../../components/FooterComponent/FooterComponent';
-import TawkToChat from '../../components/TawkToChat/TawkToChat';
+import SliderComponentY from '../../components/SliderComponentY/SliderComponentY';
 
 const HomePage = () => {
   const searchProduct = useSelector((state) => state?.product?.search)
@@ -68,6 +68,8 @@ const HomePage = () => {
     
     <div className='body' style={{width: '100%', height: '100%', backgroundColor:'#efefef'}}>
       <div id='container' style={{ width: '1270px',  margin:"0 auto", paddingBottom: '30px'}}>
+
+        <SliderComponentY />
         <SliderComponent arrImages={[slider1, slider2, slider3 ]}/>  
           
         <WrapperProducts>
