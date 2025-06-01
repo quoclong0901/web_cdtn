@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { WrapperHeader } from "./style";
 import { Button, Form, Select, Space } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
@@ -22,7 +22,7 @@ const AdminProduct = () => {
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
     const [isPendingUpdate, setIsPendingUpdate] = useState(false);
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-    // const [typeSelect, setTypeSelect] = useState('')
+    const [selectedType, setSelectedType] = useState(null);
 
     const [searchText, setSearchText] = useState('');
 
@@ -244,20 +244,20 @@ const AdminProduct = () => {
             sorter: (a, b) => a.price - b.price,
             filters: [
                 {
-                    text: '>= 50',
+                    text: '>= 5.000.000 VNĐ',
                     value: '>='
                 },
                 {
-                    text: '<= 50',
+                    text: '<= 5.000.000 VNĐ',
                     value: '<='
                 }
             ],
             onFilter: (value, record) => {
                 if ( value === '>=') {
-                    return record.price >= 50
+                    return record.price >= 5000000
                 }
 
-                return record.price <= 50
+                return record.price <= 5000000
             }
         },
         {
@@ -448,29 +448,56 @@ const AdminProduct = () => {
         })        
     }
     
+    const filteredDataTable = useMemo(() => {
+        if (!selectedType) return dataTable;
+        return dataTable.filter(item => item.type === selectedType);
+    }, [selectedType, dataTable]);
 
 // **********************************************************************
     return(
         <div>
             <WrapperHeader>Quản lý Sản phẩm</WrapperHeader>
 
-            <div style={{marginTop: '10px'}}>
+            {/* Lọc theo loại sản phẩm */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '20px' }}>
                 <Button 
-                    style={{height:'150px', width:'150px', borderRadius:'6px', borderStyle:'dashed'}} 
+                    type={!selectedType ? 'primary' : 'default'} 
+                    onClick={() => setSelectedType(null)}
+                >
+                    Tất cả
+                </Button>
+                {typeProduct?.data?.data?.map(item => (
+                    <Button 
+                        key={item} 
+                        type={selectedType === item ? 'primary' : 'default'} 
+                        onClick={() => setSelectedType(item)}
+                    >
+                        {item}
+                    </Button>
+                ))}
+            </div>
+
+            {/* Nút Thêm sản phẩm */}
+            <div style={{ marginTop: '16px' }}>
+                <Button 
+                    style={{ height: '150px', width: '150px', borderRadius: '6px', borderStyle: 'dashed' }} 
                     onClick={() => setIsModalOpen(true)}
                 >
-                    <PlusOutlined style={{fontSize:'60px'}}/>
+                    <PlusOutlined style={{ fontSize: '60px' }} />
                 </Button>
             </div>
 
-            <div style={{marginTop: '20px'}}>
-                <TableComponent  handleDeleteMany={handleDeleteManyProducts} columns={columns} isPending={isPendingProduct} data={dataTable} onRow={(record,rowIndex) => {
-                    return {
-                        onClick: event => {
-                            setRowSelected(record._id)
-                        }
-                    };
-                }} />
+            {/* Bảng sản phẩm */}
+            <div style={{ marginTop: '20px' }}>
+                <TableComponent 
+                    handleDeleteMany={handleDeleteManyProducts}
+                    columns={columns}
+                    isPending={isPendingProduct}
+                    data={filteredDataTable}
+                    onRow={(record) => ({
+                        onClick: () => setRowSelected(record._id)
+                    })}
+                />
             </div>
 
 {/* THÊM */}
