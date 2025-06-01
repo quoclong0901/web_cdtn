@@ -1,9 +1,7 @@
 import { Col, Image, Rate, Row } from 'antd'
 import React, { useState } from 'react'
-import imageProduct from '../../assets/images/test.webp'
-import imageProductSmall from '../../assets/images/imagesmall.webp'
-import { WrapperAddressProduct, WrapperInputNumber, WrapperPriceProduct, WrapperPriceTextProduct, WrapperQualityProduct, WrapperStyleColImage, WrapperStyleImageSmall, WrapperStyleNameProduct, WrapperStyleTextSell } from './style'
-import { MinusOutlined, PlusOutlined, StarFilled } from '@ant-design/icons'
+import { WrapperInputNumber, WrapperPriceProduct, WrapperStyleNameProduct, WrapperStyleTextSell } from './style'
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import * as ProductService from '../../services/ProductService'
 import ButtonComponent from '../ButtonComponent/ButtonComponent'
 import { useQuery } from '@tanstack/react-query'
@@ -79,7 +77,8 @@ const ProductDetailsComponent = ({idProduct}) => {
           product: productDetails?._id,
           discount: productDetails?.discount,
           countInStock: productDetails?.countInStock,
-          description: productDetails?.description
+          description: productDetails?.description,
+          selled: productDetails?.selled
         }
       }))
     }
@@ -167,48 +166,67 @@ const ProductDetailsComponent = ({idProduct}) => {
 
         {/* Phần nội dung chiếm 14/24 phần grid */}
         <Col xs={24} md={14} style={{paddingLeft: '10px'}}>
-          <WrapperStyleNameProduct>{productDetails?.name}</WrapperStyleNameProduct>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '16px' }}>
+          {/* Tên sản phẩm */}
+          <WrapperStyleNameProduct style={{ fontSize: '22px', fontWeight: '600', marginBottom: '12px' }}>
+            {productDetails?.name}
+          </WrapperStyleNameProduct>
 
-      {/* Sao đánh giá - đã bán */}
-          <div>
-            <Rate allowHalf defaultValue={productDetails?.rating} value={productDetails?.rating} />
-
-            <WrapperStyleTextSell> | Đã bán 50 sản phẩm</WrapperStyleTextSell>
+          {/* Đánh giá + số lượng đã bán */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <Rate allowHalf disabled value={productDetails?.rating} />
+            <WrapperStyleTextSell style={{ fontSize: '14px', color: '#888' }}>
+              | Đã bán {productDetails?.selled || 50} sản phẩm
+            </WrapperStyleTextSell>
           </div>
 
-      {/* Giá */}
-          <WrapperPriceProduct>
-            <WrapperPriceTextProduct>{convertPrice(productDetails?.price)}</WrapperPriceTextProduct>
+          <br/>
+
+          {/* Giá sản phẩm */}
+          <WrapperPriceProduct style={{ fontSize: '24px', fontWeight: 'bold', color: '#e53935', marginBottom: '12px' }}>
+            {convertPrice(productDetails?.price)}
           </WrapperPriceProduct>
-
-      {/* địa chỉ */}
-          <WrapperAddressProduct>
-            <span> Giao đến </span>
-            <span className='address'> {user?.address} </span> 
-            {/* - 
-            <span className='change-address'> Đổi địa chỉ </span> */}
-          </WrapperAddressProduct>
-
-      {/* Số lượng */}
-          <div style={{margin: '10px 0 20px',padding: '10px 0', borderTop: '1px solid #e5e5e5', borderBottom: '1px solid #e5e5e5'}}>
-            <div style={{marginBottom: '12px'}}>Số lượng</div>
-
-            <WrapperQualityProduct>
-              <button style={{border: 'none', background: 'transparent', cursor:'pointer'}} onClick={() => handleChangeCount('decrease')}>
-                <MinusOutlined style={{color: '#000', fontSize: '20px'}} />
-              </button>
               
-              <WrapperInputNumber onChange={onChange} defaultValue={1} value={numProduct} size='small'/>
-              
-              <button style={{border: 'none', background: 'transparent', cursor:'pointer'}} onClick={() => handleChangeCount('increase')}>
-                <PlusOutlined style={{color: '#000', fontSize: '20px'}}  />
-              </button>
-              
-            </WrapperQualityProduct>
+            <br/>
 
+          {/* Mô tả sản phẩm */}
+          {productDetails?.description && (
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ fontWeight: 600, fontSize: '16px', marginBottom: '4px' }}>Mô tả sản phẩm:</div>
+              <div style={{ fontSize: '14px', color: '#555', lineHeight: 1.6 }}>
+                {productDetails.description}
+              </div>
+            </div>
+          )}
+
+          <br/>
+
+          {/* Chọn số lượng */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span style={{ fontWeight: 500 }}>Số lượng:</span>
+            <button
+              style={{
+                border: 'none',
+                background: 'transparent',
+                cursor: numProduct <= 1 ? 'not-allowed' : 'pointer'
+              }}
+              onClick={() => handleChangeCount('decrease')}
+              disabled={numProduct <= 1}
+            >
+              <MinusOutlined style={{ color: numProduct <= 1 ? '#ccc' : '#000', fontSize: '20px' }} />
+            </button>
+
+            <WrapperInputNumber min={1} max={99} value={numProduct}/>
+
+            <button
+              style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
+              onClick={() => handleChangeCount('increase')}
+            >
+              <PlusOutlined style={{ fontSize: '20px' }} />
+            </button>
           </div>
 
-      {/* 2 button mua */}
+          {/* Nút chọn mua */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -230,20 +248,9 @@ const ProductDetailsComponent = ({idProduct}) => {
               textButton={'Chọn Mua'}
               styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
             />
-            {/* <ButtonComponent
-              size={20}
-              styleButton={{
-                background: '#fff',
-                height: '48px',
-                minWidth: '180px',
-                flex: '1 1 200px',
-                border: '2px solid rgb(13, 92, 182)',
-                borderRadius: '4px',
-              }}
-              textButton={'Mua trả sau'}
-              styleTextButton={{ color: 'rgb(13, 92, 182)', fontSize: '15px' }}
-            /> */}
           </div>
+        </div>
+
 
         </Col>
 
