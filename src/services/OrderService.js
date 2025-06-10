@@ -1,5 +1,4 @@
 // import axios from "axios"
-import axios from "axios";
 import { axiosJWT } from "./UserService";
 
 // export const createOrder = async (data) => {

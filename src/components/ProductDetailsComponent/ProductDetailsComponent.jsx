@@ -16,14 +16,12 @@ const ProductDetailsComponent = ({idProduct}) => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-
+  
   const [numProduct, setNumProduct ] = useState(1)
 
+  const [visible, setVisible] = useState(false)
+
   const user = useSelector((state) => state.user)
-  
-  const onChange = (value) => {
-    setNumProduct(Number(value))
-  }
 
   const fetchGetDetailsProduct = async (context) => {
     const id = context?.queryKey && context?.queryKey[1]
@@ -57,17 +55,6 @@ const ProductDetailsComponent = ({idProduct}) => {
     if(!user.id) {
       navigate('/sign-in', {state: location?.pathname})
     } else {
-        // {
-        //     name: { type: String, required: true },
-        //     amount: { type: Number, required: true },
-        //     image: { type: String, required: true },
-        //     price: { type: Number, required: true },
-        //     product: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'Product',
-        //     required: true,
-        //     },
-        // },
       dispatch(addOrderProduct({
         orderItem: {
           name: productDetails?.name,
@@ -100,68 +87,73 @@ const ProductDetailsComponent = ({idProduct}) => {
             alignItems: 'center'
           }}
         >
-          <div
-            style={{
-              width: '300px',
-              height: '400px',
-              // backgroundColor: '#f5f5f5',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              border: '1px solid #e5e5e5',
-              borderRadius: '4px',
-              overflow: 'hidden'
-            }}
-          >
-            <Image
-              src={productDetails?.image}
-              alt="image product"
-              preview={false}
+          <Image.PreviewGroup>
+            {/* Ảnh lớn */}
+            <div
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain' // hoặc 'cover' nếu bạn muốn ảnh lấp đầy khung
+                width: '300px',
+                height: '400px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: '1px solid #e5e5e5',
+                borderRadius: '4px',
+                overflow: 'hidden'
               }}
-            />
-          </div>
+            >
+              <Image
+                src={productDetails?.image}
+                alt="image product"
+                preview={{ visible: false }} // Tắt preview mặc định để không hiện ngay
+                onClick={() => setVisible(true)} // Thêm state nếu muốn điều khiển
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  cursor: 'zoom-in'
+                }}
+              />
+            </div>
 
-          <Row
-            gutter={[8, 8]}
-            style={{
-              paddingTop: '10px',
-              justifyContent: 'center',
-              width: '100%',
-              marginTop: '12px'
-            }}
-          >
-            {Array(6)
-              .fill(0)
-              .map((_, index) => (
-                <Col key={index} xs={8} sm={4}>
-                  <div
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      overflow: 'hidden',
-                      border: '1px solid #e5e5e5',
-                      borderRadius: '4px',
-                      margin: '0 auto'
-                    }}
-                  >
-                    <Image
-                      src={productDetails?.image}
-                      alt={`thumbnail ${index}`}
-                      preview={false}
+            {/* Danh sách ảnh nhỏ (thumbnails) */}
+            <Row
+              gutter={[8, 8]}
+              style={{
+                paddingTop: '10px',
+                justifyContent: 'center',
+                width: '100%',
+                marginTop: '12px'
+              }}
+            >
+              {Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <Col key={index} xs={8} sm={4}>
+                    <div
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
+                        width: '60px',
+                        height: '60px',
+                        overflow: 'hidden',
+                        border: '1px solid #e5e5e5',
+                        borderRadius: '4px',
+                        margin: '0 auto'
                       }}
-                    />
-                  </div>
-                </Col>
-              ))}
-          </Row>
+                    >
+                      <Image
+                        src={productDetails?.image}
+                        alt={`thumbnail ${index}`}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          cursor: 'zoom-in'
+                        }}
+                      />
+                    </div>
+                  </Col>
+                ))}
+            </Row>
+          </Image.PreviewGroup>
         </Col>
 
         {/* Phần nội dung chiếm 14/24 phần grid */}
