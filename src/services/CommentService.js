@@ -18,7 +18,6 @@ export const updateComment =  async (commentId, data, access_token) => {
   })
 }
 export const getCommentsByProduct = async (id, page = 1, limit = 5) => {
-    console.log("🔍 Gọi API: ", `${process.env.REACT_APP_API_URL}/comment/product/${id}`);
     return axios.get(`${process.env.REACT_APP_API_URL}/comment/product/${id}?page=${page}&limit=${limit}`);
 };
 
