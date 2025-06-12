@@ -10,9 +10,16 @@ export const createComment = async (data, access_token) => {
   });
 };
 
-export const getCommentsByProduct = async (id) => {
+export const updateComment =  async (commentId, data, access_token) => {
+  return axios.put(`${process.env.REACT_APP_API_URL}/comment/${commentId}`,data,{
+    headers: { 
+      token: `Bearer ${access_token}`
+    }
+  })
+}
+export const getCommentsByProduct = async (id, page = 1, limit = 5) => {
     console.log("🔍 Gọi API: ", `${process.env.REACT_APP_API_URL}/comment/product/${id}`);
-    return axios.get(`${process.env.REACT_APP_API_URL}/comment/product/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_URL}/comment/product/${id}?page=${page}&limit=${limit}`);
 };
 
 export const getAllComments = async (access_token) => {

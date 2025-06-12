@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { addOrderProduct } from '../../redux/slides/orderSlide'
 import { convertPrice } from '../../utils'
+import CommentProduct from '../Comment/CommentProduct'
 
 const ProductDetailsComponent = ({idProduct}) => {
   
@@ -245,7 +246,7 @@ const ProductDetailsComponent = ({idProduct}) => {
 
 
         </Col>
-
+        <CommentProduct/>
       </Row>
     </Pending>
     
