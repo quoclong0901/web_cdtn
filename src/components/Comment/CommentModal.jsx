@@ -22,10 +22,12 @@ const CommentModal = ({
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (visible && initialValues ) {
-      form.setFieldsValue(initialValues);    
-    } else {
-      form.resetFields();   
+    if (visible) {
+      if (initialValues) {
+        form.setFieldsValue(initialValues);
+      } else {
+        form.resetFields();
+      }
     }
   }, [visible, initialValues, form]);
 
@@ -38,13 +40,18 @@ const CommentModal = ({
     }
   };
 
+  const handleCancel = () => {
+    form.resetFields();
+    onCancel();
+  };
+
   return (
     <Modal
       title={isEditing ? "Chỉnh sửa đánh giá" : "Đánh giá sản phẩm"}
       open={visible}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       footer={[
-        <Button key="cancel" onClick={onCancel}>
+        <Button key="cancel" onClick={handleCancel}>
           Hủy
         </Button>,
         <Button
@@ -61,7 +68,6 @@ const CommentModal = ({
       <StyledForm
         form={form}
         layout="vertical"
-        initialValues={initialValues}
       >
         <Form.Item
           name="rating"

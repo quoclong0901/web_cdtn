@@ -285,6 +285,7 @@ const AdminProduct = () => {
         {
             title:'Type',
             dataIndex:'type',
+            sorter: (a, b) => a.type.length - b.type.length,
             ...getColumnSearchProps('type')
         },
 

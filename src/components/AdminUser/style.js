@@ -2,10 +2,8 @@ import { Upload } from "antd";
 import styled from "styled-components";
 
 
-export const WrapperHeader = styled.h1`
-    color: #000;
-    font-size: 14px;
-    
+export const WrapperHeader = styled.h2`
+    color: #000;  
 `
 
 export const WrapperUploadFile = styled(Upload)`

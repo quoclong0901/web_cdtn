@@ -28,7 +28,6 @@ const AdminUser = () => {
 
 
     const user = useSelector((state) => state?.user)
-
     const [stateUserDetails, setStateUserDetails] = useState({
         name: '',
         email: '',
@@ -144,7 +143,7 @@ const AdminUser = () => {
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }} onKeyDown={e => e.stopPropagation()}>
-                    <InputComponent
+                <InputComponent
                     ref={searchInput}
                     placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
@@ -176,16 +175,16 @@ const AdminUser = () => {
         filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />,
         onFilter: (value, record) =>
             record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-        filterDropdownProps: {
-            onOpenChange(open) {
-            if (open) {
-                setTimeout(() => {
-                var _a;
-                return (_a = searchInput.current) === null || _a === void 0 ? void 0 : _a.select();
-                }, 100);
-            }
+            filterDropdownProps: {
+                onOpenChange(open) {
+                if (open) {
+                    setTimeout(() => {
+                    var _a;
+                    return (_a = searchInput.current) === null || _a === void 0 ? void 0 : _a.select();
+                    }, 100);
+                }
+                },
             },
-        },
         }
     );
 

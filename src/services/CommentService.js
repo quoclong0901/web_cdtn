@@ -15,22 +15,37 @@ export const updateComment =  async (commentId, data, access_token) => {
     headers: { 
       token: `Bearer ${access_token}`
     }
-  })
-}
+  });
+};
+
 export const getCommentsByProduct = async (id, page = 1, limit = 5) => {
     return axios.get(`${process.env.REACT_APP_API_URL}/comment/product/${id}?page=${page}&limit=${limit}`);
 };
 
-export const getAllComments = async (access_token) => {
-  return axiosJWT.get(`${process.env.REACT_APP_API_URL}/comment/all`, {
+export const deleteComment = async (id, access_token) => {
+  return axiosJWT.delete(`${process.env.REACT_APP_API_URL}/comment/${id}`, {
     headers: { 
         token: `Bearer ${access_token}` 
     }
   });
 };
 
-export const deleteComment = async (id, access_token) => {
-  return axiosJWT.delete(`${process.env.REACT_APP_API_URL}/comment/${id}`, {
+// Admin 
+export const getAllComments = async (page = 1, limit = 8, access_token) => {
+  try {
+   
+    return axiosJWT.get(`${process.env.REACT_APP_API_URL}/comment/all?page=${page}&limit=${limit}`, {
+      headers: {
+        token: `Bearer ${access_token}`
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const adminDeleteComment = async (id, access_token) => {
+  return axiosJWT.delete(`${process.env.REACT_APP_API_URL}/comment/admin/${id}`, {
     headers: { 
         token: `Bearer ${access_token}` 
     }

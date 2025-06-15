@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getCommentsByProduct, createComment, deleteComment, updateComment } from '../../services/CommentService';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { 
-  Card, 
   Button, 
   Rate, 
   message, 
@@ -12,10 +11,8 @@ import {
   Avatar, 
   Space, 
   Popconfirm,
-  Divider,
   DatePicker,
   Pagination,
-  Flex
 } from 'antd';
 import { 
   UserOutlined, 
@@ -55,7 +52,7 @@ export default function CommentProduct() {
   const [totalItems, setTotalItems] = useState(0);
   const [pageSize, setPageSize] = useState(5);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       setLoading(true);
       const res = await getCommentsByProduct(id, currentPage, pageSize);
@@ -66,11 +63,11 @@ export default function CommentProduct() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, currentPage, pageSize, messageApi]);
 
   useEffect(() => {
     fetchComments();
-  }, [id, currentPage, pageSize]);
+  }, [fetchComments]);
 
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
@@ -122,6 +119,11 @@ export default function CommentProduct() {
     setModalVisible(true);
   };
 
+  const handleCreate = ()=> {
+    setEditingComment(null); 
+    setModalVisible(true);
+  }
+
   const handleModalCancel = () => {
     setModalVisible(false);
     setEditingComment(null);
@@ -136,7 +138,7 @@ export default function CommentProduct() {
         <Button 
           style={{backgroundColor: "red", fontWeight:450}}
           type="primary" 
-          onClick={() => setModalVisible(true)}
+          onClick={()=> handleCreate()}
         >
           Viết đánh giá
         </Button>
