@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import NavbarComponent from '../../components/NavbarComponent/NavbarComponent'
 import CartComponent from '../../components/CardComponent/CardComponent'
 import { Pagination, Row, Col } from 'antd'
-import { WrapperNavbar, WrapperProducts } from './style'
+import { WrapperProducts } from './style'
 import { useLocation } from 'react-router-dom'
 import * as ProducService from '../../services/ProductService'
 import Pending from '../../components/PendingComponent/Pending'
@@ -58,9 +57,6 @@ const TypeProductPage = () => {
         <div style={{width: '1270px', margin: '0 auto', height: '100%'}}>
 
           <Row style={{flexWrap: 'nowrap', paddingTop: '10px', height: 'calc(100% - 20px)'}}>
-            {/* <WrapperNavbar span={4} >
-                <NavbarComponent />
-            </WrapperNavbar> */}
 
             <Col span={24} style={{display:'flex' , flexDirection: 'column', justifyContent: 'space-between'}}>
               <WrapperProducts >
